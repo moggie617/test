@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res) {
+router.get('/', function(req, response) {
   
-  response.writeHead(200, {"Content-Type": "text/html"});
-  res.render('index');
-  res.end();
+  
+  response.render('index');
+  response.end();
 });
 
 module.exports = router;

@@ -11,17 +11,34 @@ router.post('/', function(req, res) {
 
   var form = new formidable.IncomingForm();
 
-  form.parse(req,function(error,fields,files){
-    fs.unlink("./temp/test.png");
-    fs.rename(files.upload.path,"./temp/test.png");
+  form.parse(req,function(error,fields,files){ 
+        console.log("pars done");
+          
+        fs.rename(files.upload.path,"./temp/test.png",function(err){
+	if(err){
+		fs.unlink("./temp/test.png",function(err){
+			throw err;
+		});
+		fs.renameSync(files.upload.path,"./temp/test.png");
+	}
+	});
+        
+	res.writeHead(200,{"Content-Type":"text/html"});
+  	res.write("received image"); 
+
+	res.write("<img src='/show' />");
+	res.end();
   });
-
-  res.writeHead(200,{"Content-Type":"text/html"});
-  res.write("received image");
-
-  res.write("<img src='/show' />");
-  res.end();
 });
+
+function UpErr(error){
+   if(error){
+    fs.unlink("/temp/test.png");
+    fs.rename(files.upload.path,"/temp/test.png");
+ 
+   console.log("upload done");
+}
+};
 
 
 

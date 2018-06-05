@@ -18,7 +18,10 @@ router.post('/', function(req, res) {
 
     fs.exists("./temp/"+file.name,function(exists){
       if(!exists){
-    fs.rename(file.path,form.uploadDir+'/'+file.name);
+    fs.rename(file.path,form.uploadDir+'/'+file.name,function(err){
+      if(err)throw err;
+      console.log("rename ")
+    });
       }else
         res.send("파일 명이 존재합니다, 임의의 이름으로 저장.");
 

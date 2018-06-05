@@ -13,6 +13,18 @@ router.post('/', function(req, res) {
 
   form.uploadDir="temp"
   form.keepExtensions=true;
+
+  form.on('file',function(field,file){
+
+    fs.exists("./temp/"+file.name,function(exists){
+      if(!exists){
+    fs.rename(file.path,form.uploadDir+'/'+file.name);
+      }else
+        res.send("파일 명이 존재합니다, 임의의 이름으로 저장.");
+
+    })
+  });
+
   form.parse(req,function(error,fields,files){ 
         console.log("pars done");
 	});
